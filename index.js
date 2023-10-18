@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -27,19 +27,56 @@ const client = new MongoClient(uri, {
 });
 
 async function run() {
-    const userCollection = client.db("carsDB").collection("cars");
+    const carsCollection = client.db("carsDB").collection("cars");
+    const userCollection = client.db("userDB").collection("user");
+    const updateCollection = client.db("updateDB").collection("updateProduct")
+
   try {
     // Connect the client to the server	(optional starting in v4.7)
    app.get('/products',async(req,res)=>{
-        const cursor = userCollection.find();
+        const cursor = carsCollection.find();
         const result = await cursor.toArray();
         res.send(result)
    })
+
+// tanim
+//    app.get('/products', async(req, res) => {
+//     const brandname = req.query.brandname;
+//     console.log(brandname)
+//     const query = {brandname: brandname}
+//     const result = await carsCollection.find(query).toArray();
+//     res.send(result);
+//         })
+
+// anik 
+   app.get('/products/:id',async(req,res)=>{
+    const id = req.params.id;
+    const query = {_id: new ObjectId(id)};
+    const result = await carsCollection.findOne(query);
+    res.send(result)
+   })
     app.post('/products',async(req,res)=>{
         const products = req.body;
-        const result = await userCollection.insertOne(products);
+        const result = await carsCollection.insertOne(products);
         res.send(result)
     })
+
+    // update user releted apis
+    app.post('/update',async(req,res) => {
+        const update = req.body;
+        console.log(update)
+        const result = await updateCollection.insertOne(update);
+        res.send(result)
+    })
+
+    // user releted apis
+    app.post('/user',async(req,res)=>{
+      const user = req.body;
+      console.log(user)
+      const result = userCollection.insertOne(user);
+      res.send(result);
+    })
+
     await client.connect();
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
