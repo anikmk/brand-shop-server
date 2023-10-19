@@ -10,8 +10,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// trgNv06YYVvzLSN1
-// autoMotive
+
 
 
 
@@ -39,7 +38,7 @@ async function run() {
         res.send(result)
    })
 
-// tanim
+// ......
 //    app.get('/products', async(req, res) => {
 //     const brandname = req.query.brandname;
 //     console.log(brandname)
@@ -48,7 +47,7 @@ async function run() {
 //     res.send(result);
 //         })
 
-// anik 
+// .......
    app.get('/products/:id',async(req,res)=>{
     const id = req.params.id;
     const query = {_id: new ObjectId(id)};
@@ -77,7 +76,7 @@ async function run() {
       res.send(result);
     })
 
-    await client.connect();
+    // await client.connect();..........
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
