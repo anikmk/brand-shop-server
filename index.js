@@ -54,6 +54,14 @@ async function run() {
     const result = await carsCollection.findOne(query);
     res.send(result)
    })
+
+   app.get('/update',async(req,res)=>{
+    const cursor = updateCollection.find();
+    const update = await cursor.toArray();
+    console.log(update)
+    res.send(update)
+
+   })
     app.post('/products',async(req,res)=>{
         const products = req.body;
         const result = await carsCollection.insertOne(products);
