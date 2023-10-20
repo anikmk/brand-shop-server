@@ -75,6 +75,12 @@ async function run() {
         const result = await updateCollection.insertOne(update);
         res.send(result)
     })
+    app.delete('/update/:id',async(req,res)=>{
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)};
+        const result = await updateCollection.deleteOne(query);
+        res.send(result)
+    })
 
     // user releted apis
     app.post('/user',async(req,res)=>{
